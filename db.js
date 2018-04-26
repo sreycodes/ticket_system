@@ -9,7 +9,8 @@ var mysql = require('mysql')
 var pool = null
 var lid = 0;
 
-exports.connect = function(done) {
+exports.connect = async function(done) {
+  pool = await createPool();
   updateLID(done);
 }
 
@@ -24,8 +25,7 @@ function createPool() {
   });
 }
 
-async function updateLID(done) {
-  pool = await createPool();
+function updateLID(done) {
   pool.query('SELECT * FROM ticket ORDER BY ID DESC LIMIT 1', function(err, res) {
     if (err) return done(new Error('Could not retrieve last row'))
     else
@@ -82,7 +82,12 @@ exports.delete = function(id, done) {
   else {
     pool.query('DELETE FROM ticket WHERE id = ?', id, function(err, res) {
         if(err) return done(new Error('Query failed'))
-        return done(null);
+        else {
+          if(lid == id) {
+            return updateLID(done);
+          }
+          return done(null);
+        }
       });
   }
 }
