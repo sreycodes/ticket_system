@@ -19,7 +19,7 @@ function createPool() {
     resolve(mysql.createPool({
       host: 'localhost',
       user: 'root',
-      password: 'password',
+      password: process.env.db_password,
       database: 'tickets'
     }));
   });
