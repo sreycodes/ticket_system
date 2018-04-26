@@ -1,0 +1,58 @@
+<h1>Query results</h1>
+{{#if GET}}
+	<h2>Retrieved row: </h2>
+	{{#if result}}
+		<table>
+			<tr>
+				<th> ID </td>
+				<th> Subject </td>
+				<th> Description </td>
+				<th> Email </td>
+			</tr>
+			<tr>
+				<td> {{result.id}} </td>
+				<td> {{result.subject}} </td>
+				<td> {{result.description}} </td>
+				<td> {{result.email}} </td>
+			</tr>
+		</table>
+		<h2>Update this entry </h2>
+		<form method="post" action="/tickets/{{result.id}}">
+			<label for="subject">Subject</label>
+		    <textarea id="subject" name="subject" rows="1" >{{result.subject}}</textarea>
+		    </br>
+		    <label for="description">Description</label>
+		    <textarea id="description" name="description" rows="4">{{result.description}}</textarea>
+		    </br>
+		    <label for="email">Email</label>
+		    <input id="email" name="email" type="email" value="{{result.email}}"/>
+		    </br>
+		    <input type="hidden" name="_method" value="put">
+		    <button class="btn" type="submit">Update</button>
+		</form>
+		<h2>Delete this entry </h2>
+		<form method="post" action="/tickets/{{result.id}}">
+		<input type="hidden" name="_method" value="delete">
+		    <button class="btn" type="submit">Delete</button>
+		</form>
+	{{else}}
+		<b> No such row exists </b>
+	{{/if}}
+{{/if}}
+{{#if POST}}
+	<h2>Inserted rows</h2>
+	<table>
+		<tr>
+			<th> ID </td>
+			<th> Subject </td>
+			<th> Description </td>
+			<th> Email </td>
+		</tr>
+		<tr>
+			<td> {{result.id}} </td>
+			<td> {{result.subject}} </td>
+			<td> {{result.description}} </td>
+			<td> {{result.email}} </td>
+		</tr>
+	</table>
+{{/if}}
