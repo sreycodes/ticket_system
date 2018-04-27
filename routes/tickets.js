@@ -3,14 +3,18 @@ var router = express.Router();
 var db = require('../db')
 
 /* GET users listing. */
-router.get('/:id', function(req, res, next) {
-  var id = req.params.id;
-	db.getById(id, function(err, result) {
-  	if(err) 
-  		throw err;
-  	else 
-  		res.render('result', { result: result[0], GET: true});
-  	});
+router.get('/', function(req, res, next) {
+  var id = req.param('id');
+  if(id != null) {
+	  db.getById(id, function(err, result) {
+	  	if(err) 
+	  		throw err;
+	  	else 
+	  		res.render('result', { result: result[0], GET: true});
+	  	});
+	} else {
+		res.status(404).send('Wrong route!');
+	}
 });
 
 router.post('/', function(req, res, next) {
@@ -32,7 +36,6 @@ router.put('/:id', function(req, res, next) {
 	var description = req.body.description;
 	var email = req.body.email;
 	var row = {id: id, subject: subject, description: description, email: email};
-	console.log(row);
 	db.update(row, function(err, result) {
 			if(err) 
 	  		throw err;

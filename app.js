@@ -8,6 +8,15 @@ var methodOverride = require('method-override')
 require('dotenv').config();
 var db = require('./db');
 
+var auth = function (req, res, next) {
+    var token = req.headers['x-access-token'];
+    if (!token || token != process.env.token) {
+      return res.status(401).send('Wrong token provided.');
+    } else {
+       next();
+    }
+}
+
 db.connect(function(err) {
 	if (err) console.log("Couldn't connect to the database")
 	else console.log("Connected successfully")
@@ -24,6 +33,7 @@ app.set('view engine', 'hbs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(auth);
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
