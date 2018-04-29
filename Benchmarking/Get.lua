@@ -1,3 +1,5 @@
+--local inspect = require('inspect')
+
 local headers = {}
 headers["x-access-token"] = "token"
 headers["Content-Type"] = "application/x-www-form-urlencoded"
