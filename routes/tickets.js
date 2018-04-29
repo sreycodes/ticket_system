@@ -40,7 +40,7 @@ router.put('/:id', function(req, res, next) {
 			if(err) 
 	  		throw err;
 	  	else 
-	  		res.redirect('/tickets/'+id);
+	  		res.redirect('/tickets?id='+id);
 		});
 });
 

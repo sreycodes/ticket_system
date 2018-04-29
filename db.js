@@ -41,7 +41,7 @@ exports.get = function() {
 exports.getById = function(id, done) {
   if (!pool) return done(new Error('Missing database connection.'))
   else {
-    pool.query('SELECT * FROM ticket WHERE id = ?', id, function(err, res) {
+    pool.query('SELECT * FROM ticket WHERE id = ? LIMIT 1', id, function(err, res) {
       if(err) return done(new Error('Query failed'))
       else {
         return done(null, res)
@@ -70,7 +70,6 @@ exports.update = function(row, done) {
       [row.subject, row.description, row.email, row.id], function(err, res) {
         if(err) return done(new Error('Query failed'))
         else {
-          console.log(res);
           return done(null, row)
         }
       });
